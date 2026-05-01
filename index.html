@@ -8,10 +8,16 @@
 <style>
   :root {
     --ink: #1a1208;
+    --ink-soft: #2f261b;
     --paper: #f5f0e8;
+    --paper-rgb: 245, 240, 232;
+    --surface: #fffaf1;
     --cream: #ede7d5;
     --accent: #c84b2f;
     --accent-light: #e8856e;
+    --teal: #2f8076;
+    --teal-dark: #185f58;
+    --blue: #294e76;
     --gold: #b8860b;
     --muted: #6b5d4a;
     --rule: #c8b99a;
@@ -21,12 +27,22 @@
     --loss-border: #c84b2f;
     --note-bg: #fdf8ed;
     --note-border: #b8860b;
+    --shadow: 0 22px 70px rgba(31, 23, 11, 0.14);
+    --shadow-soft: 0 12px 30px rgba(31, 23, 11, 0.1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    background: var(--paper);
+    background:
+      linear-gradient(90deg, rgba(47, 128, 118, 0.045) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(47, 128, 118, 0.035) 1px, transparent 1px),
+      var(--paper);
+    background-size: 42px 42px;
     color: var(--ink);
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 18px;
@@ -38,30 +54,39 @@
     background: var(--ink);
     color: var(--paper);
     text-align: center;
-    padding: 14px 20px;
+    padding: 14px 20px 13px;
     font-family: 'Playfair Display', serif;
     font-size: 11px;
     letter-spacing: 0.3em;
     text-transform: uppercase;
     border-bottom: 3px solid var(--accent);
+    box-shadow: 0 10px 30px rgba(26, 18, 8, 0.25);
   }
 
   /* HERO */
   .hero {
-    max-width: 780px;
-    margin: 60px auto 0;
+    max-width: 1120px;
+    margin: 54px auto 0;
     padding: 0 32px;
-    text-align: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+    gap: 56px;
+    align-items: center;
     position: relative;
   }
 
   .hero::before {
     content: '';
-    display: block;
-    width: 60px;
+    position: absolute;
+    top: -18px;
+    left: 32px;
+    width: 74px;
     height: 3px;
     background: var(--accent);
-    margin: 0 auto 32px;
+  }
+
+  .hero-copy {
+    text-align: left;
   }
 
   .kicker {
@@ -71,16 +96,17 @@
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
 
   h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(34px, 6vw, 58px);
+    font-size: clamp(42px, 6vw, 76px);
     font-weight: 900;
-    line-height: 1.1;
+    line-height: 0.98;
     color: var(--ink);
-    margin-bottom: 28px;
+    margin-bottom: 26px;
+    max-width: 780px;
   }
 
   h1 em {
@@ -93,19 +119,188 @@
     line-height: 1.6;
     color: var(--muted);
     font-weight: 300;
-    max-width: 600px;
-    margin: 0 auto 40px;
+    max-width: 650px;
+    margin: 0 0 34px;
     font-style: italic;
   }
 
   .byline {
-    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
     letter-spacing: 0.1em;
     color: var(--muted);
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
     padding: 12px 0;
-    margin-bottom: 60px;
+    text-transform: uppercase;
+  }
+
+  .hero-visual {
+    min-height: 450px;
+    position: relative;
+  }
+
+  .memory-visual {
+    background:
+      linear-gradient(135deg, rgba(255, 250, 241, 0.95), rgba(234, 244, 236, 0.88)),
+      linear-gradient(90deg, rgba(26, 18, 8, 0.06) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(26, 18, 8, 0.05) 1px, transparent 1px);
+    background-size: auto, 28px 28px, 28px 28px;
+    border: 1px solid rgba(47, 128, 118, 0.32);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    min-height: 450px;
+    padding: 26px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .memory-visual::before {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(184, 134, 11, 0.28);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+
+  .visual-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    padding: 10px 14px;
+    text-transform: uppercase;
+  }
+
+  .visual-stack {
+    display: grid;
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .visual-node {
+    align-items: center;
+    background: rgba(255, 250, 241, 0.88);
+    border: 1px solid rgba(200, 185, 154, 0.8);
+    border-radius: 6px;
+    box-shadow: 0 8px 18px rgba(31, 23, 11, 0.07);
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 14px;
+    min-height: 76px;
+    padding: 14px;
+    position: relative;
+  }
+
+  .visual-node::after {
+    content: '';
+    position: absolute;
+    left: 34px;
+    bottom: -15px;
+    width: 2px;
+    height: 14px;
+    background: var(--rule);
+  }
+
+  .visual-node:last-child::after {
+    display: none;
+  }
+
+  .node-icon {
+    align-items: center;
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    color: var(--ink);
+    display: flex;
+    font-size: 20px;
+    height: 44px;
+    justify-content: center;
+    width: 44px;
+  }
+
+  .visual-node strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .visual-node span {
+    color: var(--muted);
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .visual-node > div:last-child {
+    min-width: 0;
+  }
+
+  .visual-node strong,
+  .visual-node span {
+    overflow-wrap: anywhere;
+  }
+
+  .visual-node.output {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  .visual-node.output strong,
+  .visual-node.output span {
+    color: var(--paper);
+  }
+
+  .visual-node.output .node-icon {
+    background: var(--accent);
+    border-color: var(--accent-light);
+    color: white;
+  }
+
+  .insight-strip {
+    max-width: 1120px;
+    margin: 38px auto 62px;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .insight {
+    background: var(--surface);
+    border: 1px solid rgba(200, 185, 154, 0.78);
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+    min-height: 118px;
+    padding: 22px 24px;
+  }
+
+  .insight strong {
+    color: var(--teal-dark);
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .insight span {
+    color: var(--muted);
+    display: block;
+    font-size: 14px;
+    line-height: 1.45;
   }
 
   /* BODY */
@@ -130,15 +325,58 @@
     margin-bottom: 1.5rem;
   }
 
+  .article-nav {
+    background: rgba(255, 250, 241, 0.86);
+    border: 1px solid rgba(200, 185, 154, 0.82);
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 0 0 48px;
+    padding: 12px;
+  }
+
+  .article-nav a {
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1;
+    padding: 9px 12px;
+    text-decoration: none;
+    transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+    white-space: nowrap;
+  }
+
+  .article-nav a:hover,
+  .article-nav a:focus {
+    background: var(--cream);
+    border-color: var(--rule);
+    color: var(--accent);
+  }
+
   /* SECTION HEADINGS */
   h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 28px;
+    font-size: clamp(27px, 4vw, 34px);
     font-weight: 700;
     color: var(--ink);
     margin: 56px 0 20px;
     padding-bottom: 12px;
-    border-bottom: 2px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  h2::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 92px;
+    height: 3px;
+    background: var(--accent);
   }
 
   h3 {
@@ -189,9 +427,10 @@
   }
 
   .scenario {
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 24px;
     position: relative;
+    box-shadow: 0 12px 24px rgba(31, 23, 11, 0.08);
   }
 
   .scenario-old {
@@ -257,12 +496,14 @@
   }
 
   .card {
-    border-radius: 4px;
+    border: 1px solid rgba(200, 185, 154, 0.56);
+    border-radius: 8px;
     padding: 24px 28px;
     margin-bottom: 16px;
     display: flex;
     gap: 20px;
     align-items: flex-start;
+    box-shadow: 0 12px 26px rgba(31, 23, 11, 0.07);
   }
 
   .card-win {
@@ -281,9 +522,16 @@
   }
 
   .card-icon {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.52);
+    border-radius: 50%;
+    display: flex;
     font-size: 26px;
     flex-shrink: 0;
+    height: 48px;
+    justify-content: center;
     margin-top: 2px;
+    width: 48px;
   }
 
   .card-content h4 {
@@ -301,10 +549,19 @@
   }
 
   /* COST TABLE */
+  .table-wrap {
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+    margin: 32px 0;
+    overflow-x: auto;
+  }
+
   .cost-table {
+    min-width: 680px;
     width: 100%;
     border-collapse: collapse;
-    margin: 32px 0;
+    margin: 0;
     font-size: 15px;
   }
 
@@ -327,7 +584,7 @@
   }
 
   .cost-table tbody tr:hover {
-    background: #e8dfc8;
+    background: rgba(47, 128, 118, 0.1);
   }
 
   .cost-table td {
@@ -343,15 +600,80 @@
   .cost-table .good { color: var(--win-border); }
   .cost-table .bad  { color: var(--accent); }
 
+  /* PROCESS */
+  .process-map {
+    background: var(--surface);
+    border: 1px solid rgba(200, 185, 154, 0.82);
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 38px 0;
+    padding: 18px;
+  }
+
+  .process-step {
+    background: var(--paper);
+    border: 1px solid rgba(200, 185, 154, 0.72);
+    border-radius: 6px;
+    min-height: 150px;
+    padding: 18px;
+    position: relative;
+  }
+
+  .process-step:not(:last-child)::after {
+    content: '→';
+    color: var(--accent);
+    font-family: 'Playfair Display', serif;
+    font-size: 25px;
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .process-step b {
+    align-items: center;
+    background: var(--ink);
+    border-radius: 50%;
+    color: var(--paper);
+    display: flex;
+    font-size: 13px;
+    height: 30px;
+    justify-content: center;
+    margin-bottom: 14px;
+    width: 30px;
+  }
+
+  .process-step strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .process-step span {
+    color: var(--muted);
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
   /* ANALOGY BOX */
   .analogy-box {
-    background: var(--ink);
+    background:
+      linear-gradient(135deg, rgba(200, 75, 47, 0.16), transparent 44%),
+      var(--ink);
     color: var(--paper);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 36px 40px;
     margin: 48px 0;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow-soft);
   }
 
   .analogy-box::before {
@@ -409,12 +731,14 @@
 
   /* FINAL VERDICT */
   .verdict {
-    background: var(--accent);
+    background:
+      linear-gradient(135deg, var(--accent), #9f3525 62%, var(--ink));
     color: white;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 36px 40px;
     margin: 48px 0;
     text-align: center;
+    box-shadow: var(--shadow);
   }
 
   .verdict h2 {
@@ -460,6 +784,108 @@
     border-radius: 2px;
     margin-bottom: 16px;
   }
+
+  @media (max-width: 920px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 34px;
+      margin-top: 42px;
+    }
+
+    .hero-visual,
+    .memory-visual {
+      min-height: auto;
+    }
+
+    .insight-strip {
+      grid-template-columns: 1fr;
+      margin-top: 28px;
+    }
+
+    .process-map {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .process-step:not(:last-child)::after {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    body {
+      font-size: 17px;
+      line-height: 1.78;
+    }
+
+    .masthead {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      line-height: 1.5;
+    }
+
+    .hero,
+    .insight-strip,
+    .article-body {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    h1 {
+      font-size: 40px;
+    }
+
+    .deck {
+      font-size: 18px;
+    }
+
+    .memory-visual {
+      padding: 18px;
+    }
+
+    .visual-node {
+      grid-template-columns: 38px 1fr;
+      padding: 12px;
+    }
+
+    .visual-node strong {
+      font-size: 17px;
+    }
+
+    .visual-node span {
+      font-size: 12.5px;
+      line-height: 1.38;
+    }
+
+    .node-icon {
+      height: 38px;
+      width: 38px;
+    }
+
+    .article-nav {
+      gap: 8px;
+      margin-bottom: 34px;
+    }
+
+    .process-map {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      gap: 14px;
+      padding: 20px;
+    }
+
+    .card-icon {
+      height: 42px;
+      width: 42px;
+      font-size: 22px;
+    }
+
+    .analogy-box,
+    .verdict {
+      padding: 28px 24px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -467,13 +893,75 @@
 <div class="masthead">The Business Intelligence Review &nbsp;·&nbsp; Enterprise AI Series &nbsp;·&nbsp; April 2026</div>
 
 <div class="hero">
-  <div class="kicker">The Problem Nobody Talks About</div>
-  <h1>Your AI Has <em>No Memory.</em><br>Here's How to Fix It.</h1>
-  <p class="deck">Every time you ask AI to help with your business, it starts from zero — reading the same files, making the same mistakes. There's a smarter way to work.</p>
-  <div class="byline">A plain-English guide for business owners &amp; decision makers</div>
+  <div class="hero-copy">
+    <div class="kicker">The Problem Nobody Talks About</div>
+    <h1>Your AI Has <em>No Memory.</em><br>Here's How to Fix It.</h1>
+    <p class="deck">Every time you ask AI to help with your business, it starts from zero — reading the same files, making the same mistakes. There's a smarter way to work.</p>
+    <div class="byline">A plain-English guide for business owners &amp; decision makers</div>
+  </div>
+  <div class="hero-visual" aria-label="Business brain workflow illustration">
+    <div class="memory-visual">
+      <div class="visual-tag">Knowledge Architecture</div>
+      <div class="visual-stack">
+        <div class="visual-node">
+          <div class="node-icon">01</div>
+          <div>
+            <strong>Raw Business Files</strong>
+            <span>Brand guides, onboarding forms, reviews, reports, strategy docs.</span>
+          </div>
+        </div>
+        <div class="visual-node">
+          <div class="node-icon">02</div>
+          <div>
+            <strong>Structured Memory</strong>
+            <span>Facts are cleaned, linked, sourced, and stored once.</span>
+          </div>
+        </div>
+        <div class="visual-node">
+          <div class="node-icon">03</div>
+          <div>
+            <strong>Relevant Retrieval</strong>
+            <span>AI reads only the small slice needed for each job.</span>
+          </div>
+        </div>
+        <div class="visual-node output">
+          <div class="node-icon">04</div>
+          <div>
+            <strong>Consistent Answers</strong>
+            <span>Lower cost, clearer audit trail, and the same truth everywhere.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="insight-strip" aria-label="Key article takeaways">
+  <div class="insight">
+    <strong>200×</strong>
+    <span>Monthly re-reads when every AI task gets the same 50-page file bundle.</span>
+  </div>
+  <div class="insight">
+    <strong>5–10×</strong>
+    <span>Typical reduction in repeated AI reading once knowledge is compiled.</span>
+  </div>
+  <div class="insight">
+    <strong>1 Brain</strong>
+    <span>A shared source of truth for every AI tool, team, and workflow.</span>
+  </div>
 </div>
 
 <div class="article-body">
+
+  <nav class="article-nav" aria-label="Article sections">
+    <a href="#problem">Problem</a>
+    <a href="#solution">Solution</a>
+    <a href="#case-study">Case Study</a>
+    <a href="#savings">Savings</a>
+    <a href="#wins">Wins</a>
+    <a href="#constraints">Constraints</a>
+    <a href="#next">What It Means</a>
+  </nav>
 
   <!-- INTRO -->
   <p class="drop-cap">Imagine hiring a brilliant new employee. They're sharp, fast, and eager. On day one, you hand them a thick folder — your company's history, your brand guide, your customer profiles, your goals. They read it all and do a great job.</p>
@@ -487,7 +975,7 @@
     <span class="analogy-label">The core problem, in plain English</span>
   </div>
 
-  <h2>What's Actually Happening When You Send AI Your Files</h2>
+  <h2 id="problem">What's Actually Happening When You Send AI Your Files</h2>
 
   <p>When a business sends its onboarding form, brand guide, strategy document, Google review report, and social media report to an AI tool, here's what really happens:</p>
 
@@ -521,7 +1009,7 @@
 
   <div class="divider"><span>✦</span></div>
 
-  <h2>There's a Better Way: Build the Business a Brain</h2>
+  <h2 id="solution">There's a Better Way: Build the Business a Brain</h2>
 
   <p>In early 2026, Andrej Karpathy — one of the founding minds behind the AI systems you use every day — published a simple but powerful idea. Instead of feeding AI raw documents every time, <strong>compile that knowledge into a permanent, organised "brain."</strong></p>
 
@@ -529,12 +1017,35 @@
 
   <p>That's what building a "business brain" does for your AI. It reads all your documents once — deeply — and creates a permanent, structured knowledge home for your business. Every fact is filed. Every relationship between facts is mapped. And from that point on, AI only reads the specific page it needs to answer your question, not the whole library.</p>
 
+  <div class="process-map" aria-label="Business brain build process">
+    <div class="process-step">
+      <b>1</b>
+      <strong>Ingest the source files</strong>
+      <span>Collect the documents the business already relies on.</span>
+    </div>
+    <div class="process-step">
+      <b>2</b>
+      <strong>Extract reusable facts</strong>
+      <span>Turn scattered paragraphs into clean, named knowledge.</span>
+    </div>
+    <div class="process-step">
+      <b>3</b>
+      <strong>Link every claim</strong>
+      <span>Connect services, locations, hours, tone, offers, and sources.</span>
+    </div>
+    <div class="process-step">
+      <b>4</b>
+      <strong>Answer from memory</strong>
+      <span>Give AI a small, relevant context instead of the whole archive.</span>
+    </div>
+  </div>
+
   <div class="pull-quote">
     <blockquote>"Build the knowledge once. Use it forever. Stop paying to rediscover the same facts on every single call."</blockquote>
     <cite>The core principle</cite>
   </div>
 
-  <h2>The Real-World Difference — Meet Casa Verde</h2>
+  <h2 id="case-study">The Real-World Difference — Meet Casa Verde</h2>
 
   <p><span class="casa-label">Case Study</span></p>
 
@@ -571,57 +1082,59 @@
     </div>
   </div>
 
-  <h2>How Much Does This Actually Save?</h2>
+  <h2 id="savings">How Much Does This Actually Save?</h2>
 
   <p>Here's a simplified look at what the cost difference looks like for a platform serving 1,000 businesses like Casa Verde:</p>
 
-  <table class="cost-table">
-    <thead>
-      <tr>
-        <th>What You're Spending On</th>
-        <th>Old Way (Send Everything)</th>
-        <th>Smart Way (Build the Brain)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>AI reading costs per client/month</td>
-        <td class="bad">$35–$60</td>
-        <td class="good">$6–$10</td>
-      </tr>
-      <tr>
-        <td>Database storage costs</td>
-        <td class="bad">$200–$2,000/month</td>
-        <td class="good">Near zero</td>
-      </tr>
-      <tr>
-        <td>Cost to set up knowledge for new client</td>
-        <td class="bad">Hours of manual work</td>
-        <td class="good">Minutes, automated</td>
-      </tr>
-      <tr>
-        <td>Accuracy of AI answers</td>
-        <td class="bad">Inconsistent</td>
-        <td class="good">3–5× more accurate</td>
-      </tr>
-      <tr>
-        <td>AI hallucinations (making things up)</td>
-        <td class="bad">Frequent</td>
-        <td class="good">40%+ fewer</td>
-      </tr>
-      <tr>
-        <td>For 1,000 clients — monthly AI spend</td>
-        <td class="bad">$35,000–$60,000</td>
-        <td class="good">$6,000–$10,000</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-wrap">
+    <table class="cost-table">
+      <thead>
+        <tr>
+          <th>What You're Spending On</th>
+          <th>Old Way (Send Everything)</th>
+          <th>Smart Way (Build the Brain)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AI reading costs per client/month</td>
+          <td class="bad">$35–$60</td>
+          <td class="good">$6–$10</td>
+        </tr>
+        <tr>
+          <td>Database storage costs</td>
+          <td class="bad">$200–$2,000/month</td>
+          <td class="good">Near zero</td>
+        </tr>
+        <tr>
+          <td>Cost to set up knowledge for new client</td>
+          <td class="bad">Hours of manual work</td>
+          <td class="good">Minutes, automated</td>
+        </tr>
+        <tr>
+          <td>Accuracy of AI answers</td>
+          <td class="bad">Inconsistent</td>
+          <td class="good">3–5× more accurate</td>
+        </tr>
+        <tr>
+          <td>AI hallucinations (making things up)</td>
+          <td class="bad">Frequent</td>
+          <td class="good">40%+ fewer</td>
+        </tr>
+        <tr>
+          <td>For 1,000 clients — monthly AI spend</td>
+          <td class="bad">$35,000–$60,000</td>
+          <td class="good">$6,000–$10,000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <p>Those aren't theoretical numbers. They're based on 2026 AI pricing and published research from Microsoft, Google, and independent AI benchmarking organisations. The structural saving is real and repeatable at every scale.</p>
 
   <div class="divider"><span>✦</span></div>
 
-  <h2>The Wins — Plain and Simple</h2>
+  <h2 id="wins">The Wins — Plain and Simple</h2>
 
   <div class="cards-section">
     <div class="card card-win">
@@ -663,7 +1176,7 @@
 
   <div class="divider"><span>✦</span></div>
 
-  <h2>The Constraints — What You Need to Know</h2>
+  <h2 id="constraints">The Constraints — What You Need to Know</h2>
 
   <p>This approach is genuinely powerful, but it's not magic. Here are the honest constraints any business needs to understand before adopting it:</p>
 
@@ -718,7 +1231,7 @@
     <span class="analogy-label">Another way to think about it</span>
   </div>
 
-  <h2>What This Means for Your Business — Right Now</h2>
+  <h2 id="next">What This Means for Your Business — Right Now</h2>
 
   <p>You don't need to be a technology company to benefit from this. If you are:</p>
 
